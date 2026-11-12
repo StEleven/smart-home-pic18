@@ -1,0 +1,847 @@
+{
+  "archive_sha256": "d75db15412e094c86d09c50b8b1280c3ad9faf8e26df6f895db25f86e01ef3fc",
+  "files": {
+    "app/environment_page.c": {
+      "base_sha256": "c8efabf3c5f83fe9aa9fa801414816ac2793edae4454cbbbaabfa62e618b338a",
+      "output_sha256": "ddad8c76765f182af4c2ec13e963e2ba847dfa174e82722b8e1abb1b534d935e",
+      "edits": [
+        [
+          9,
+          9,
+          "#include \"extension_config.h\"\n#if SMART_HOME_EXTENSIONS_ENABLE\n#include \"home_automation.h\"\n#endif\n"
+        ],
+        [
+          35,
+          35,
+          "            environmentMode = ENVIRONMENT_VIEW_PM25;\n"
+        ],
+        [
+          44,
+          44,
+          "            environmentMode = ENVIRONMENT_VIEW_HUMIDITY;\n"
+        ],
+        [
+          63,
+          63,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    if (environmentMode == ENVIRONMENT_VIEW_HUMIDITY)\n    {\n        const HomeAutomation_State_t *home = HomeAutomation_GetState();\n        EnvironmentView_BuildHumidity(view, home->inputs.humidityValid,\n            home->inputs.humidity10, home->comfort);\n        return;\n    }\n#endif\n    potValid = PotentiometerService_GetPercent(&potPercent);\n\n    EnvironmentView_Build(view, potValid, potPercent, environmentMode);\n"
+        ]
+      ]
+    },
+    "app/environment_view.c": {
+      "base_sha256": "4015a4cf58f8707fdb83aa3df9033f96b6aeef5ad863a6e010b9b458b5d29fc4",
+      "output_sha256": "a720680c1821aa7de2eaa670e54aa495b505fd4faf8704435abf55e2bf756a8d",
+      "edits": [
+        [
+          5,
+          5,
+          "\nvoid EnvironmentView_BuildHumidity(DisplayService_View_t *view, bool valid,\n                                   uint16_t humidity10, uint8_t comfort)\n{\n    char value[21U];\n    if (view == NULL) { return; }\n    DisplayService_ViewClear(view);\n    (void)DisplayService_ViewSetLine(view, 0U, \"SHT30 REAL HUMIDITY\");\n    if (valid)\n    {\n        (void)snprintf(value, sizeof(value), \"%u.%u %% RH\",\n            (unsigned int)(humidity10 / 10U), (unsigned int)(humidity10 % 10U));\n        (void)DisplayService_ViewSetLine(view, 2U, value);\n        (void)DisplayService_ViewSetLine(view, 4U,\n            (comfort == 1U) ? \"DRY: RH < 40%\" :\n            ((comfort == 3U) ? \"HUMID: RH > 60%\" : \"COMFORT: RH 40-60%\"));\n    }\n    else { (void)DisplayService_ViewSetLine(view, 2U, \"SENSOR UNKNOWN/STALE\"); }\n    (void)DisplayService_ViewSetLine(view, 5U, \"POT: TEMP SETPOINT\");\n    (void)DisplayService_ViewSetLine(view, 6U, \"LEFT/RIGHT PM2.5 SIM\");\n    (void)DisplayService_ViewSetLine(view, 7U, \"SW1 HOLD: HOME CTRL\");\n}\n"
+        ],
+        [
+          60,
+          61,
+          "    (void)DisplayService_ViewSetLine(view, 7U, \"SW3 : MENU\");\n"
+        ]
+      ]
+    },
+    "app/environment_view.h": {
+      "base_sha256": "fe6bddcdf79cbed6af2d48865d0cf146e963bcd89027a134e2661dfc637328e5",
+      "output_sha256": "f014089b5e65f2d118ae144fc4e7f01db3475d545cc27b450a47d7db53a01a0a",
+      "edits": [
+        [
+          18,
+          18,
+          "/* Measured SHT30 humidity; PM2.5 remains an explicitly labelled ADC simulation. */\nvoid EnvironmentView_BuildHumidity(DisplayService_View_t *view, bool valid,\n                                   uint16_t humidity10, uint8_t comfort);\n\n"
+        ]
+      ]
+    },
+    "app/menu_page.c": {
+      "base_sha256": "b6f9beed0ffd3bd200171cc808d4a21ea055f587ed837b3b1cdf66231c771194",
+      "output_sha256": "c3d556a4e1b5533cd5a524feb225440424c24bcae45683f1192d70da0f7d0cb8",
+      "edits": [
+        [
+          63,
+          64,
+          "    else if (event->button == BUTTON_ID_SW3)\n"
+        ]
+      ]
+    },
+    "app/menu_view.c": {
+      "base_sha256": "41b64c56b025d7328f0a05296c075e911aa36fe039cb2d2bab519337eeacb181",
+      "output_sha256": "72323c667527e6d3f7baec8ebd6db17ed9d5aebdbed011d760f0dbf4e1de94b3",
+      "edits": [
+        [
+          50,
+          51,
+          "    (void)DisplayService_ViewSetLine(view, 7U, \"PUSH:SEL SW3:BACK\");\n"
+        ]
+      ]
+    },
+    "app/music_page.c": {
+      "base_sha256": "abb1955e6b270efac87a0c12cfaa449d04e109dd872b05d3989226ee58423e66",
+      "output_sha256": "c32ddce50b7edf93faa8235baaf1d3efaab9db349df65afd33f5d72973ce8cc2",
+      "edits": [
+        [
+          66,
+          66,
+          "        MusicService_SetSelectedDemo(demo);\n"
+        ],
+        [
+          77,
+          77,
+          "            MusicService_Stop();\n"
+        ],
+        [
+          86,
+          86,
+          "            (void)MusicService_PlayDemo(MusicService_GetSelectedDemo(), false);\n"
+        ],
+        [
+          107,
+          107,
+          "        AudioSampleEngine_SetVolume(volume);\n"
+        ],
+        [
+          127,
+          127,
+          "        AudioSampleEngine_SetVolume(volume);\n"
+        ],
+        [
+          142,
+          142,
+          "    MusicView_Build(view, MusicService_GetSelectedDemo(), MusicService_IsPlaying(), AudioSampleEngine_GetVolume());\n"
+        ]
+      ]
+    },
+    "app/music_view.c": {
+      "base_sha256": "84cfedfe12f73fa5c3eea7b70c680523d99ccb605beec01239a5fd0b25af6c89",
+      "output_sha256": "009e50226a2784b95e9077f26ddc3076c2d5cd98aaa0927184867ef7f8c0a15c",
+      "edits": [
+        [
+          41,
+          42,
+          "    (void)DisplayService_ViewSetLine(view, 7U, \"PUSH PLAY  SW3 MENU\");\n"
+        ]
+      ]
+    },
+    "app/smart_home_app.c": {
+      "base_sha256": "d019fad00a83518eef47125c78ea38a6850d3512261eb2aa9431ca45bccf8222",
+      "output_sha256": "82811c65fd81a70bf4f99bb099394c7e19738c860ca889d94905f3ad0df9f18c",
+      "edits": [
+        [
+          30,
+          30,
+          "#include \"extension_config.h\"\n#if SMART_HOME_EXTENSIONS_ENABLE\n#include \"home_automation.h\"\n#include <stdio.h>\n#endif\n"
+        ],
+        [
+          55,
+          58,
+          "/* 室温约 30°C 时的测试阈值，保留 1.0°C 的 Hot 回差。 */\n#define SMART_HOME_COLD_THRESHOLD_C         30.0f  /* 低于该温度进入 Cold。 */\n#define SMART_HOME_HOT_ENTER_THRESHOLD_C    31.5f  /* 达到该温度进入 Hot。 */\n#define SMART_HOME_HOT_EXIT_THRESHOLD_C     30.5f  /* 降到该温度或以下退出 Hot。 */\n"
+        ],
+        [
+          63,
+          68,
+          "#define SMART_HOME_RGB_COLD_RED                 0U    /* Cold 状态 RGB 红色分量。 */\n#define SMART_HOME_RGB_COLD_GREEN             100U    /* Cold 状态 RGB 绿色分量。 */\n#define SMART_HOME_RGB_COLD_BLUE                0U    /* Cold 状态 RGB 蓝色分量。 */\n#define SMART_HOME_RGB_COMFORT_RED            100U    /* Comfort 状态 RGB 红色分量。 */\n#define SMART_HOME_RGB_COMFORT_GREEN            0U    /* Comfort 状态 RGB 绿色分量。 */\n"
+        ],
+        [
+          69,
+          70,
+          "#define SMART_HOME_RGB_HOT_RED                  0U    /* Hot 状态 RGB 红色分量。 */\n"
+        ],
+        [
+          71,
+          72,
+          "#define SMART_HOME_RGB_HOT_BLUE               100U    /* Hot 状态 RGB 蓝色分量。 */\n"
+        ],
+        [
+          116,
+          116,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\nstatic bool extensionOverlay;\nstatic bool extensionPreviousPresent;\n#endif\n"
+        ],
+        [
+          173,
+          173,
+          "        oldPageIf->Exit();\n"
+        ],
+        [
+          181,
+          181,
+          "    g_smartHomeAppDebug.page = newPage;\n    g_smartHomeAppDebug.pageChangeCount++;\n"
+        ],
+        [
+          182,
+          182,
+          "\n"
+        ],
+        [
+          190,
+          190,
+          "        newPageIf->Enter(nowMs);\n"
+        ],
+        [
+          213,
+          213,
+          "     g_smartHomeAppDebug.returnPage = g_smartHomeAppDebug.page;\n     SmartHomeApp_ChangePage(APP_PAGE_MENU, nowMs);\n"
+        ],
+        [
+          229,
+          229,
+          "            SmartHomeApp_ChangePage(action.target, nowMs);\n"
+        ],
+        [
+          241,
+          241,
+          "            SmartHomeApp_ChangePage(g_smartHomeAppDebug.returnPage, nowMs);\n"
+        ],
+        [
+          270,
+          270,
+          "            LEDService_Set(LED_SERVICE_LED0_MASK,  true);            \n"
+        ],
+        [
+          277,
+          277,
+          "              LEDService_Set(LED_SERVICE_LED0_MASK, false);\n"
+        ],
+        [
+          286,
+          286,
+          "            LEDService_Toggle(LED_SERVICE_LED0_MASK);\n"
+        ],
+        [
+          348,
+          349,
+          "     * SW2 = 打开 Menu。\n"
+        ],
+        [
+          352,
+          353,
+          "    if (event->button == BUTTON_ID_SW3)\n"
+        ],
+        [
+          354,
+          360,
+          "        SmartHomeApp_OpenMenu(nowMs);\n"
+        ],
+        [
+          392,
+          392,
+          "    g_smartHomeAppDebug.userSessionActive = true;\n    g_smartHomeAppDebug.displayAllowedByPresence = true;\n"
+        ],
+        [
+          403,
+          403,
+          "    DisplayService_SetAwake(true);\n    WS2812BService_SetBrightness(80U);\n\n    WS2812BService_RainbowBreathe(\n        3000UL\n    );\n"
+        ],
+        [
+          453,
+          453,
+          "    ServoService_WindowClose();  /* 无人时关闭窗户。 */\n    ServoService_VentClose();    /* 无人时关闭风口。 */\n    RGBLEDService_Off();          /* 无人时关闭 RGB 状态灯。 */\n"
+        ],
+        [
+          460,
+          460,
+          "    DisplayService_SetAwake(false);\n\n    LEDService_Set(SMART_HOME_PRESENCE_LED_MASK, false);\n    WS2812BService_Clear();\n"
+        ],
+        [
+          510,
+          510,
+          "        SmartHomeApp_StartUserSession(nowMs);\n"
+        ],
+        [
+          521,
+          521,
+          "        SmartHomeApp_EndUserSession();\n"
+        ],
+        [
+          556,
+          556,
+          "    action = pageIf->Task(nowMs);\n    SmartHomeApp_ApplyAction(action, nowMs);\n"
+        ],
+        [
+          561,
+          562,
+          "static void SmartHomeApp_Render(uint32_t nowMs)\n"
+        ],
+        [
+          564,
+          564,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    const HomeAutomation_State_t *home = HomeAutomation_GetState();\n    char line[21U];\n    if (extensionOverlay)\n    {\n        HomeAutomation_BuildView(&smartHomeView);\n        (void)HomeAutomation_ApplyNotice(&smartHomeView, nowMs);\n        DisplayService_SubmitView(&smartHomeView);\n        g_smartHomeAppDebug.renderCount++;\n        return;\n    }\n#endif\n#if !SMART_HOME_EXTENSIONS_ENABLE\n    (void)nowMs;\n#endif\n"
+        ],
+        [
+          581,
+          581,
+          "    pageIf->Build(&smartHomeView);\n#if (LAB_STAGE >= 8) && !SMART_HOME_EXTENSIONS_ENABLE\n    if ((g_smartHomeAppDebug.page == APP_PAGE_TEMPERATURE) && TemperatureService_IsValid())\n    {\n        /* 显示实际温控状态，使 Hot 回差区间内的文字与 RGB、舵机一致。 */\n        switch (climateState)\n        {\n            case SMART_HOME_CLIMATE_COLD:\n                (void)DisplayService_ViewSetLine(&smartHomeView, 4U, \"COLD\");\n                break;\n            case SMART_HOME_CLIMATE_HOT:\n                (void)DisplayService_ViewSetLine(&smartHomeView, 4U, \"HOT\");\n                break;\n            case SMART_HOME_CLIMATE_COMFORT:\n            default:\n                (void)DisplayService_ViewSetLine(&smartHomeView, 4U, \"COMFORTABLE\");\n                break;\n        }\n    }\n#endif\n#if SMART_HOME_EXTENSIONS_ENABLE\n    if (g_smartHomeAppDebug.page == APP_PAGE_TEMPERATURE)\n    {\n        if (!home->tempValid)\n        {\n            (void)DisplayService_ViewSetLine(&smartHomeView, 2U, \"TEMP INPUT UNKNOWN\");\n        }\n        (void)DisplayService_ViewSetLine(&smartHomeView, 4U,\n            home->cooling ? \"SIMULATED AC: ON\" :\n            (home->windowTarget ? \"NATURAL VENTILATION\" : \"SIMULATED AC: OFF\"));\n        (void)snprintf(line, sizeof(line), \"SET: %d.%u C\",\n            (int)(home->setpoint10 / 10), (unsigned int)(home->setpoint10 % 10));\n        (void)DisplayService_ViewSetLine(&smartHomeView, 5U, line);\n    }\n#endif\n#if SMART_HOME_EXTENSIONS_ENABLE\n    if (g_smartHomeAppDebug.page == APP_PAGE_TEMPERATURE || g_smartHomeAppDebug.page == APP_PAGE_ENVIRONMENT) {\n        (void)DisplayService_ViewSetLine(&smartHomeView, 7U, \"SW1 CTRL SW2 STUDY\");\n    }\n    (void)HomeAutomation_ApplyNotice(&smartHomeView, nowMs);\n#endif\n    DisplayService_SubmitView(&smartHomeView);\n"
+        ],
+        [
+          598,
+          598,
+          "            ServoService_WindowClose();\n            ServoService_SetTarget(SERVO_SERVICE_DEVICE_VENT, SMART_HOME_VENT_COLD_ANGLE);\n            RGBLEDService_SetColor(SMART_HOME_RGB_COLD_RED, SMART_HOME_RGB_COLD_GREEN, SMART_HOME_RGB_COLD_BLUE);\n"
+        ],
+        [
+          606,
+          606,
+          "            ServoService_WindowOpen();\n            ServoService_SetTarget(SERVO_SERVICE_DEVICE_VENT, SMART_HOME_VENT_HOT_ANGLE);\n            RGBLEDService_Breathe(SMART_HOME_RGB_HOT_RED, SMART_HOME_RGB_HOT_GREEN, SMART_HOME_RGB_HOT_BLUE, SMART_HOME_RGB_HOT_BREATHE_MS);\n"
+        ],
+        [
+          615,
+          615,
+          "            ServoService_WindowClose();\n            ServoService_SetTarget(SERVO_SERVICE_DEVICE_VENT, SMART_HOME_VENT_COMFORT_ANGLE);\n            RGBLEDService_SetColor(SMART_HOME_RGB_COMFORT_RED, SMART_HOME_RGB_COMFORT_GREEN, SMART_HOME_RGB_COMFORT_BLUE);\n"
+        ],
+        [
+          639,
+          640,
+          "            /* Hot 到退出阈值或以下才退出，回差区间内保持 Hot。 */\n"
+        ],
+        [
+          643,
+          644,
+          "                 * Hot达到退出阈值后，低于Cold阈值转Cold，否则转Comfort。\n"
+        ],
+        [
+          647,
+          647,
+          "                newState = (temperatureC < SMART_HOME_COLD_THRESHOLD_C)\n                    ? SMART_HOME_CLIMATE_COLD : SMART_HOME_CLIMATE_COMFORT;\n"
+        ],
+        [
+          654,
+          655,
+          "             * Cold/Comfort：达到Hot进入阈值转Hot，低于Cold阈值转Cold，其余转Comfort。\n"
+        ],
+        [
+          658,
+          658,
+          "            if (temperatureC >= SMART_HOME_HOT_ENTER_THRESHOLD_C) { newState = SMART_HOME_CLIMATE_HOT; }\n            else if (temperatureC < SMART_HOME_COLD_THRESHOLD_C) { newState = SMART_HOME_CLIMATE_COLD; }\n            else { newState = SMART_HOME_CLIMATE_COMFORT; }\n"
+        ],
+        [
+          725,
+          725,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    /* Extension policy owns servos, lights, loads and alarm output. The legacy\n     * Presence session must not disable local controls or overwrite those outputs. */\n    extensionOverlay = false;\n    extensionPreviousPresent = false;\n    g_smartHomeAppDebug.userSessionActive = true;\n    g_smartHomeAppDebug.displayAllowedByPresence = true;\n    DisplayService_SetAwake(true);\n    if (g_smartHomeAppDebug.page == APP_PAGE_WELCOME)\n    {\n        g_welcomePage.Enter(nowMs);\n    }\n#endif\n"
+        ],
+        [
+          737,
+          738,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    const HomeAutomation_State_t *home = HomeAutomation_GetState();\n    bool present = ProximityService_IsHealthy() && ProximityService_IsPresent() &&\n        ((uint32_t)(nowMs - ProximityService_GetLastUpdateMs()) <= 1000UL);\n    if (present && !extensionPreviousPresent && !extensionOverlay &&\n        (home->scene == HOME_SCENE_HOME))\n    {\n        if (g_smartHomeAppDebug.page == APP_PAGE_WELCOME)\n        {\n            g_welcomePage.Exit();\n            g_welcomePage.Enter(nowMs);\n        }\n        else { SmartHomeApp_ChangePage(APP_PAGE_WELCOME, nowMs); }\n    }\n    extensionPreviousPresent = present;\n    g_smartHomeAppDebug.proximityValidSeen = ProximityService_IsValid();\n    /* One queue consumer; board controls work without Presence or a host. */\n    while (ButtonService_TakeEvent(&event))\n    {\n        if ((event.button == BUTTON_ID_SW1) &&\n            (event.type == BUTTON_EVENT_LONG_PRESS || event.type == BUTTON_EVENT_SHORT_PRESS))\n        {\n            extensionOverlay = !extensionOverlay;\n            HomeAutomation_DismissNotice();\n        }\n        else if ((event.button == BUTTON_ID_SW2) &&\n            (event.type == BUTTON_EVENT_SHORT_PRESS || event.type == BUTTON_EVENT_LONG_PRESS))\n        { HomeAutomation_HandleButton(&event, nowMs); }\n        else if ((event.button == BUTTON_ID_SW3) && (event.type == BUTTON_EVENT_SHORT_PRESS))\n        {\n            extensionOverlay = false;\n            HomeAutomation_DismissNotice();\n            SmartHomeApp_OpenMenu(nowMs);\n        }\n        else if (extensionOverlay) { HomeAutomation_HandleButton(&event, nowMs); }\n        else { SmartHomeApp_HandleButton(&event, nowMs); }\n        g_smartHomeAppDebug.nextRenderMs = 0UL;\n    }\n    if (!extensionOverlay) { SmartHomeApp_RunCurrentPageTask(nowMs); }\n    if ((g_smartHomeAppDebug.nextRenderMs == 0UL) ||\n        SmartHomeApp_TimeReached(nowMs, g_smartHomeAppDebug.nextRenderMs))\n    {\n        SmartHomeApp_Render(nowMs);\n        g_smartHomeAppDebug.nextRenderMs = nowMs + SMART_HOME_RENDER_PERIOD_MS;\n    }\n#elif LAB_STAGE <= 2\n"
+        ],
+        [
+          762,
+          763,
+          "        SmartHomeApp_Render(nowMs);\n"
+        ],
+        [
+          772,
+          772,
+          "    SmartHomeApp_HandleProximity(nowMs);\n"
+        ],
+        [
+          782,
+          782,
+          "        SmartHomeApp_HandleButton(&event, nowMs);\n"
+        ],
+        [
+          789,
+          789,
+          "    SmartHomeApp_UpdateClimateControl();\n"
+        ],
+        [
+          790,
+          790,
+          "\n"
+        ],
+        [
+          796,
+          796,
+          "    SmartHomeApp_RunCurrentPageTask(nowMs);\n"
+        ],
+        [
+          797,
+          797,
+          "\n"
+        ],
+        [
+          805,
+          805,
+          "        SmartHomeApp_Render(nowMs);\n        g_smartHomeAppDebug.nextRenderMs = nowMs + SMART_HOME_RENDER_PERIOD_MS;\n"
+        ]
+      ]
+    },
+    "app/temperature_view.c": {
+      "base_sha256": "976ade36620997b4d96bff3453cb92b3ac40353ddc290f1205e4c2d7332ae227",
+      "output_sha256": "f07c09730b4261e6dfb558f8ffc97f1963f348fc3a010904c2e73449d28ac2e6",
+      "edits": [
+        [
+          3,
+          5,
+          "#define TEMPERATURE_VIEW_COLD_THRESHOLD_C   30.0f  /* 与温控Cold阈值一致。 */\n#define TEMPERATURE_VIEW_HOT_THRESHOLD_C    31.5f  /* 与温控Hot进入阈值一致。 */\n"
+        ],
+        [
+          9,
+          9,
+          " * At LAB_STAGE >= 8, SmartHomeApp replaces this label with the actual climate state.\n"
+        ],
+        [
+          44,
+          45,
+          "        (void)DisplayService_ViewSetLine(view, 7U, \"SW3 : MENU\");\n"
+        ],
+        [
+          61,
+          62,
+          "    (void)DisplayService_ViewSetLine(view, 7U, \"SW3 : MENU\");\n"
+        ]
+      ]
+    },
+    "app/welcome_page.c": {
+      "base_sha256": "d7591f3fb08728e79bdd94195507bb1e723176c2ec01d642beca247b25d333d0",
+      "output_sha256": "e297a80f9ba4984117e92c71ad7f67caa70ecf05b425d5f7189e6b31ad5cf1dd",
+      "edits": [
+        [
+          35,
+          35,
+          "    welcomeDeadlineMs = nowMs + WELCOME_PAGE_MAX_DURATION_MS;\n"
+        ],
+        [
+          46,
+          46,
+          "    welcomePlaybackStarted = (MusicService_PlayWelcome(false) == MUSIC_SERVICE_OK);\n"
+        ],
+        [
+          62,
+          62,
+          "    MusicService_Stop();\n    welcomePlaybackStarted = false;\n"
+        ],
+        [
+          80,
+          80,
+          "        return AppPage_Goto(APP_PAGE_TEMPERATURE);\n"
+        ],
+        [
+          93,
+          93,
+          "        return AppPage_Goto(APP_PAGE_TEMPERATURE);\n"
+        ],
+        [
+          124,
+          124,
+          "        return AppPage_Goto(APP_PAGE_TEMPERATURE);\n"
+        ],
+        [
+          139,
+          139,
+          "    WelcomeView_Build(view);\n"
+        ]
+      ]
+    },
+    "app/welcome_view.c": {
+      "base_sha256": "0506c25a50d0def4f9a52df65171b9ea86a365b0952951bf2d7e543630a01cde",
+      "output_sha256": "9c941ba1839fb6ff38066516be9141a6bedfba4737b1007c6eaab3b58c30765e",
+      "edits": [
+        [
+          8,
+          9,
+          "#define WELCOME_GROUP       \"GROUP: GPT\"  /* Welcome 页面显示的小组信息文本。 */\n"
+        ]
+      ]
+    },
+    "device_driver/i2c_bus.c": {
+      "base_sha256": "17b93be9f9d381962904f282aad166bb985fe155fedf7a66db6feeccf2949b26",
+      "output_sha256": "98e54f00133cab2c847dbfca44df0a84ecbfbe1f26f350472bb2bde2a1ff2210",
+      "edits": [
+        [
+          76,
+          76,
+          "\n        case I2C_BUS_OWNER_SHT30:\n            return &g_i2cBusDebug.sht30;\n"
+        ],
+        [
+          197,
+          197,
+          "\n    I2C_Bus_DebugResetOwner(&g_i2cBusDebug.sht30);\n"
+        ]
+      ]
+    },
+    "device_driver/i2c_bus.h": {
+      "base_sha256": "64358ed27007311031b540a4bbe69ab22cb5a8ae96533b1efc0d0ec08f2b3ba9",
+      "output_sha256": "91e82b0c3a9e7b046b12d9baf8d69b01e890902249681f3f6d35220f416dcc30",
+      "edits": [
+        [
+          67,
+          67,
+          "\n    I2C_BUS_OWNER_SHT30,  /**< 外接 SHT30 湿度传感器。 */\n"
+        ],
+        [
+          214,
+          214,
+          "\n    /** @brief 外接 SHT30 对应的 I2C 调试统计。 */\n    I2C_BusOwnerDebug_t sht30;\n"
+        ]
+      ]
+    },
+    "device_driver/servo_driver.c": {
+      "base_sha256": "f9acbc36d7645989d1eabaeafe6619802345f1ddcd8933e6eadb25932633ecc8",
+      "output_sha256": "9e5eb52795c42ecb36eafd1af932a56782a29f23d4884e3e611ea6bb5260e0aa",
+      "edits": [
+        [
+          1,
+          1,
+          "#include \"extension_config.h\"\n"
+        ],
+        [
+          8,
+          9,
+          "#define SERVO_EVENT_MAX             5U  /* Four falling edges plus frame end. */\n"
+        ],
+        [
+          14,
+          15,
+          "#define SERVO_MASK_4             0x08U\n#define SERVO_MASK_ALL           0x0FU\n"
+        ],
+        [
+          35,
+          37,
+          "static uint16_t servoPulseTicks[SERVO_DRIVER_COUNT];                 /* 四路目标脉宽，单位 tick。 */\nstatic uint8_t servoAngles[SERVO_DRIVER_COUNT];                      /* 四路当前设置角度。 */\n"
+        ],
+        [
+          48,
+          48,
+          "    if ((mask & SERVO_MASK_4) != 0U) { HOME_CURTAIN_PIN_LOW(); }\n"
+        ],
+        [
+          50,
+          51,
+          "/* 将四个 Servo 引脚同时开始新的高电平脉冲。 */\n"
+        ],
+        [
+          56,
+          56,
+          "    HOME_CURTAIN_PIN_HIGH();\n"
+        ],
+        [
+          73,
+          74,
+          "    if (servoId == SERVO_DRIVER_ID_3) { return SERVO_MASK_3; }\n    return SERVO_MASK_4;\n"
+        ],
+        [
+          76,
+          77,
+          "/* 根据四个目标脉宽提前生成完整的一帧事件表。 */\n"
+        ],
+        [
+          130,
+          130,
+          "    uint8_t timerInterruptEnabled;\n"
+        ],
+        [
+          131,
+          131,
+          "    /* The frame ISR may promote pending to active between these reads.\n     * Only protect the snapshot; schedule construction keeps interrupts live. */\n    timerInterruptEnabled = PIE5bits.TMR3IE;\n    PIE5bits.TMR3IE = 0;\n"
+        ],
+        [
+          132,
+          132,
+          "#ifdef SERVO_DRIVER_TEST_SNAPSHOT_HOOK\n    SERVO_DRIVER_TEST_SNAPSHOT_HOOK();\n#endif\n"
+        ],
+        [
+          133,
+          133,
+          "    PIE5bits.TMR3IE = timerInterruptEnabled;\n"
+        ],
+        [
+          142,
+          143,
+          "/* TMR3 中断回调，只执行已经提前计算好的事件。 */\n"
+        ],
+        [
+          178,
+          178,
+          "    HOME_CURTAIN_PIN_INIT();\n"
+        ],
+        [
+          180,
+          180,
+          "    HOME_CURTAIN_PIN_LOW();\n"
+        ],
+        [
+          225,
+          226,
+          "}\n"
+        ]
+      ]
+    },
+    "device_driver/servo_driver.h": {
+      "base_sha256": "e13565fb00929b90d0ecfb479152b53bd5bf225d917ff2b6ec7b1e43b9f65f88",
+      "output_sha256": "af1437e7abd9a573e8e882d8936ce1b0aa52402e024539fb7a548beee3064454",
+      "edits": [
+        [
+          13,
+          13,
+          "    SERVO_DRIVER_ID_4,      /* Curtain, project-owned GPIO in extension_config.h. */\n"
+        ],
+        [
+          35,
+          36,
+          "#endif\n"
+        ]
+      ]
+    },
+    "device_driver/ssd1306.c": {
+      "base_sha256": "792ff4607e747b65cc89a66a1445d5690ff0b883311d674b6234cc101cf8b40c",
+      "output_sha256": "2008f5dd24b2e8d0653857ebec3a365a64a052e7dc0c11342777526ffbc46251",
+      "edits": [
+        [
+          29,
+          30,
+          ""
+        ],
+        [
+          1043,
+          1044,
+          ""
+        ]
+      ]
+    },
+    "device_driver/ssd1306.h": {
+      "base_sha256": "32946aa0a294ecc4a2fe3cefe51f84a1dcb0a4609570ba5f6ca0fb8ffe874a4c",
+      "output_sha256": "ca605656d57a062608e8bf24d827a4c98d45ce48620106408962592f5edf74c7",
+      "edits": [
+        [
+          265,
+          266,
+          "     * @brief ASCII 字符索引。\n"
+        ]
+      ]
+    },
+    "lab_config.h": {
+      "base_sha256": "2329b44f1f3989a372a57b2572f20638b5b9d0847d584ec62df6fee6f21ea856",
+      "output_sha256": "b0abffb907a945663036b14696ea58df015ba220d7a21515196802422fa343b2",
+      "edits": [
+        [
+          9,
+          10,
+          "#define LAB_STAGE 9\n"
+        ]
+      ]
+    },
+    "main.c": {
+      "base_sha256": "d72e95e313ae33e679e2def16b999a7ffed01ac0137926290becac751290ab39",
+      "output_sha256": "acd97da2f12b300282747f2aa7f475f256179fdafd58f485c76a9d1ab09c30cb",
+      "edits": [
+        [
+          8,
+          8,
+          "#include \"extension_config.h\"\n#include \"i2c_bus.h\"\n#if SMART_HOME_EXTENSIONS_ENABLE\n#include \"home_inputs.h\"\n#include \"home_automation.h\"\n#include \"host_serial.h\"\n#endif\n"
+        ],
+        [
+          49,
+          49,
+          "    I2C_Bus_Initialize();\n"
+        ],
+        [
+          100,
+          100,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    HomeInputs_Initialize(nowMs);\n    HomeAutomation_Initialize(nowMs);\n    HostSerial_Initialize(nowMs);\n#endif\n"
+        ],
+        [
+          129,
+          129,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n        HomeInputs_Task(nowMs);\n#endif\n"
+        ],
+        [
+          130,
+          130,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n        HomeAutomation_Task(nowMs);\n        HostSerial_Task(nowMs);\n#endif\n"
+        ]
+      ]
+    },
+    "mcc_generated_files/system/src/interrupt.c": {
+      "base_sha256": "db7ad3d7973d75dc5d855b25ead602624437a5f75369e92c6449ab10922f1fa7",
+      "output_sha256": "906c1721cc3f7b458703b2222db863b88801e72386947719a7446c02a0377f74",
+      "edits": [
+        [
+          36,
+          36,
+          "#include \"extension_config.h\"\n#if SMART_HOME_EXTENSIONS_ENABLE\n#include \"host_serial.h\"\n#endif\n"
+        ],
+        [
+          126,
+          126,
+          "#if SMART_HOME_EXTENSIONS_ENABLE\n    /* Project extension: retain when regenerating MCC interrupt manager.\n     * Copy at most one FIFO burst, then let existing peripherals progress. */\n    if (PIE4bits.U1RXIE && PIR4bits.U1RXIF) { HostSerial_RxISR(); }\n#endif\n"
+        ]
+      ]
+    },
+    "service/potentiometer_service.c": {
+      "base_sha256": "c15f4e83a0db66ba61406992e0d89d04a7a8f0c6c872dba2f0563aa4f3f77dfa",
+      "output_sha256": "f251ca34ba73f738c7d81154051fda2004e6a84f21594dd2267ba05135fa277e",
+      "edits": [
+        [
+          63,
+          63,
+          "    value = ((uint32_t)g_potentiometerServiceDebug.filteredRaw * 3UL) + (uint32_t)raw;\n    value /= 4UL;\n"
+        ],
+        [
+          88,
+          89,
+          "    value = ((uint32_t)raw * POTENTIOMETER_SERVICE_PERCENT_MAX) +\n        (POTENTIOMETER_SERVICE_ADC_MAX_VALUE / 2UL);\n\n    value /= POTENTIOMETER_SERVICE_ADC_MAX_VALUE;\n"
+        ],
+        [
+          157,
+          157,
+          "            status = ADC_Driver_Start(&potentiometerAdcContext, POT_ADC);\n"
+        ],
+        [
+          197,
+          197,
+          "            status = ADC_Driver_Poll(&potentiometerAdcContext, &complete, &raw);\n"
+        ],
+        [
+          232,
+          232,
+          "                g_potentiometerServiceDebug.raw = raw;\n                g_potentiometerServiceDebug.filteredRaw = PotentiometerService_Filter(raw);\n"
+        ]
+      ]
+    },
+    "service/proximity_service.c": {
+      "base_sha256": "f2d892b5b56102bbb4d9cecc2b611d19a947e982d1b0e7fd2c3bc7ce94d73b4a",
+      "output_sha256": "a7bc76bba81eb01de963b09947f97d29c1b8358724be35d5675df6bfed176e48",
+      "edits": [
+        [
+          88,
+          88,
+          "    filtered = ((uint32_t)g_proximityServiceDebug.filtered * 3UL) + (uint32_t)raw;\n\n    filtered /= 4UL;\n"
+        ],
+        [
+          135,
+          135,
+          "                g_proximityServiceDebug.present = true;\n                g_proximityServiceDebug.pendingEvent = PROXIMITY_EVENT_PERSON_ENTER;\n"
+        ],
+        [
+          147,
+          147,
+          "                g_proximityServiceDebug.present = false;\n                g_proximityServiceDebug.pendingEvent = PROXIMITY_EVENT_PERSON_LEAVE;\n"
+        ],
+        [
+          261,
+          261,
+          "            status = VCNL4200_ReadProximityRawAsyncStart(&proximityReadContext, nowMs, PROXIMITY_SERVICE_I2C_TIMEOUT_MS);\n"
+        ],
+        [
+          311,
+          311,
+          "            status = VCNL4200_ReadProximityRawAsyncPoll(&proximityReadContext, nowMs, &complete, &raw);\n"
+        ],
+        [
+          366,
+          366,
+          "            g_proximityServiceDebug.raw = raw;\n\n            g_proximityServiceDebug.filtered = ProximityService_Filter(raw);\n"
+        ]
+      ]
+    },
+    "service/proximity_service.h": {
+      "base_sha256": "90050a607e93f613ad1aaa395e19e1c15797c84d3c6b2f1aa3bfd77430f7d3e8",
+      "output_sha256": "fb00ee0e0208a8e70c1fa0638799b9b2025722ee12c58463cc0a9347475104e5",
+      "edits": [
+        [
+          62,
+          63,
+          " * 继承旧 Demo 的 5000 初始阈值作为第一版起点。\n"
+        ],
+        [
+          68,
+          69,
+          "#define PROXIMITY_SERVICE_DEFAULT_ENTER_THRESHOLD    5000U  /* 默认人员进入判定阈值。 */\n"
+        ],
+        [
+          76,
+          77,
+          " * 4800 是当前软件框架的初始建议值，不是硬件固定参数，需要实测调整。\n"
+        ],
+        [
+          78,
+          79,
+          "#define PROXIMITY_SERVICE_DEFAULT_LEAVE_THRESHOLD    4800U  /* 默认人员离开判定阈值。 */\n"
+        ]
+      ]
+    },
+    "service/servo_service.c": {
+      "base_sha256": "c46e0af3525e7b40918d5a436b66815fdcd70b6d0005f8f43acc8d1cea50f22a",
+      "output_sha256": "7d52f0e72bfc942e64718a821f72b821b8b4c541d4aa1b3b3060f19209fce40a",
+      "edits": [
+        [
+          38,
+          38,
+          "    if (device == SERVO_SERVICE_DEVICE_CURTAIN) { return SERVO_DRIVER_ID_4; }\n"
+        ],
+        [
+          76,
+          77,
+          "        if ((uint16_t)nextAngle <= (uint16_t)state->targetAngle + state->moveStepDeg) { nextAngle = state->targetAngle; }\n"
+        ],
+        [
+          98,
+          98,
+          "    ServoService_ChannelInitialize(SERVO_SERVICE_DEVICE_CURTAIN, 0U, nowMs);\n"
+        ],
+        [
+          110,
+          110,
+          "    ServoService_ChannelTask(SERVO_SERVICE_DEVICE_CURTAIN, nowMs);\n"
+        ],
+        [
+          240,
+          241,
+          "}\n"
+        ]
+      ]
+    },
+    "service/servo_service.h": {
+      "base_sha256": "c25800a0baf634c05978bf2fd44114bee0dd58165bbce8abb194527e773b615d",
+      "output_sha256": "13f2b8190a53c953611a157e65fee2e0a5b4997d150f7a85cf6f7dc370ac8920",
+      "edits": [
+        [
+          14,
+          14,
+          "    SERVO_SERVICE_DEVICE_CURTAIN,   /* Servo4, simulated curtain. */\n"
+        ],
+        [
+          117,
+          118,
+          "#endif\n"
+        ]
+      ]
+    },
+    "service/temperature_service.c": {
+      "base_sha256": "127e8b92a8c07e657a0f95e97f86f7a3e0ac814549dba9e7de9ef173f06851e0",
+      "output_sha256": "5fe01b3c23db7dcb99cc2cff9ea8b9a2642e827fc5d9336a6eb31fa9878734fa",
+      "edits": [
+        [
+          156,
+          156,
+          "            status = MCP9808_ReadTemperatureAsyncStart(&temperatureReadContext, nowMs, TEMPERATURE_SERVICE_I2C_TIMEOUT_MS);\n"
+        ],
+        [
+          207,
+          207,
+          "            status = MCP9808_ReadTemperatureAsyncPoll(&temperatureReadContext, nowMs, &complete, &temperatureC);\n\n"
+        ],
+        [
+          268,
+          268,
+          "            g_temperatureServiceDebug.temperatureC = temperatureC;\n\n            g_temperatureServiceDebug.valid = true;\n            g_temperatureServiceDebug.lastReadOk = true;\n"
+        ]
+      ]
+    },
+    "service/ws2812b_service.c": {
+      "base_sha256": "e85b6f881be02cd57f27c01682761f9c9b30d0854f74ee504804aaeb01d964fa",
+      "output_sha256": "54537dc34f46160a900f6857fcd36a65fbae0da83226f68d59ad937f16bfde91",
+      "edits": [
+        [
+          72,
+          73,
+          "#define WS2812B_SERVICE_RAINBOW_COLOR_COUNT       10U\n"
+        ],
+        [
+          227,
+          233,
+          "    {255U,   0U,   0U},  /* 红色 */\n    {255U, 165U,   0U},  /* 橙色 */\n    {255U, 255U,   0U},  /* 黄色 */\n    {  0U, 255U,   0U},  /* 绿色 */\n    {  0U, 255U, 255U},  /* 青色 */\n    {  0U,   0U, 255U},  /* 蓝色 */\n    { 75U,   0U, 130U},  /* 靛色 */\n    {139U,   0U, 255U},  /* 紫色 */\n    {255U, 105U, 180U},  /* 粉红色 */\n    {255U, 255U, 255U}   /* 白色 */\n"
+        ]
+      ]
+    }
+  }
+}

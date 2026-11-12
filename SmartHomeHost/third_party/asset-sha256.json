@@ -1,0 +1,127 @@
+[
+  {
+    "path": "frontend/public/assets/building/door-rotate-square-a.glb",
+    "bytes": 25616,
+    "sha256": "12675fba53441fb556772f8dadbfcb88bb2deb8c6d0e3d47f0c86bc364721918"
+  },
+  {
+    "path": "frontend/public/assets/building/wall-doorway-square.glb",
+    "bytes": 6308,
+    "sha256": "5fc3ab4d17545ffcca24d73a77589d6f4816d2bd21b29614be3e0819c97f0410"
+  },
+  {
+    "path": "frontend/public/assets/building/Textures/colormap.png",
+    "bytes": 10051,
+    "sha256": "01741a46a279bef667de3143ee653d0073ed7cae925d88341281391d9220092b"
+  },
+  {
+    "path": "frontend/public/assets/furniture/bedDouble.glb",
+    "bytes": 23368,
+    "sha256": "c49b33e7d797d2ba1111895587dba7ff63b17a712eb9b4ceeb40a598f73e476c"
+  },
+  {
+    "path": "frontend/public/assets/furniture/books.glb",
+    "bytes": 6864,
+    "sha256": "b8dc56e5d29f6fc1f4727fccb1b9642627fee9942c48060a00034e98df02701c"
+  },
+  {
+    "path": "frontend/public/assets/furniture/cabinetBed.glb",
+    "bytes": 7496,
+    "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+  },
+  {
+    "path": "frontend/public/assets/furniture/cabinetTelevision.glb",
+    "bytes": 10524,
+    "sha256": "811719593d676ff76f7b5904d52c845ce0396af2bc9a6a2636c4818ead320b99"
+  },
+  {
+    "path": "frontend/public/assets/furniture/chairModernCushion.glb",
+    "bytes": 7376,
+    "sha256": "245132697e633e907e2b48c86d56f6c8543604a3440a055d1c71c06ce11d2858"
+  },
+  {
+    "path": "frontend/public/assets/furniture/coatRackStanding.glb",
+    "bytes": 13288,
+    "sha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91"
+  },
+  {
+    "path": "frontend/public/assets/furniture/hoodModern.glb",
+    "bytes": 3968,
+    "sha256": "f5ac7dbadd1d98813c48315e56fa6ab2e8783870b1fb7be30825177bbf2b2afe"
+  },
+  {
+    "path": "frontend/public/assets/furniture/kitchenCabinet.glb",
+    "bytes": 10444,
+    "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+  },
+  {
+    "path": "frontend/public/assets/furniture/kitchenCabinetUpper.glb",
+    "bytes": 8168,
+    "sha256": "8f2496feed85a745ffb6e554075b8450d647f8f68b01d6a010fcac1510fc173a"
+  },
+  {
+    "path": "frontend/public/assets/furniture/kitchenFridge.glb",
+    "bytes": 20116,
+    "sha256": "8af4f4bbb1b5525ad8226e97926a5af60fa8fb20a3cb74dbda5328a9d320dbab"
+  },
+  {
+    "path": "frontend/public/assets/furniture/kitchenSink.glb",
+    "bytes": 23480,
+    "sha256": "7b9610277d71f00dcf1bba49cf4d98d77ce5177e84bf76c7da2f8893e542f743"
+  },
+  {
+    "path": "frontend/public/assets/furniture/kitchenStove.glb",
+    "bytes": 54324,
+    "sha256": "3239edb36295dfca9530a9b9a6ad0aff98ce62e7cf8d13ca2a5a1a6b2a904656"
+  },
+  {
+    "path": "frontend/public/assets/furniture/lampRoundFloor.glb",
+    "bytes": 6600,
+    "sha256": "50fe1b5b588edf15bfa9cc880f71a02a4fda6036350b24733d0ef4de5cc5e908"
+  },
+  {
+    "path": "frontend/public/assets/furniture/loungeDesignChair.glb",
+    "bytes": 9136,
+    "sha256": "f0766a7d5698974b711adac18a2108f0e74e3a036fa4e4e0ccf91195b0ee5abf"
+  },
+  {
+    "path": "frontend/public/assets/furniture/loungeDesignSofa.glb",
+    "bytes": 9128,
+    "sha256": "b4f4e6850118e409da301df678228c703b6ac02e94fbb9dbde61543af817fa53"
+  },
+  {
+    "path": "frontend/public/assets/furniture/plantSmall1.glb",
+    "bytes": 8224,
+    "sha256": "2b9c022feb47be857b2c4fdc29f36522766ba9b70c578c31d7c05d71b4377d15"
+  },
+  {
+    "path": "frontend/public/assets/furniture/pottedPlant.glb",
+    "bytes": 7576,
+    "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15"
+  },
+  {
+    "path": "frontend/public/assets/furniture/rugRounded.glb",
+    "bytes": 10876,
+    "sha256": "2ef5cc634bb1060a1a5774cfcaf6e11c235791c99d6b59da5fdbc09edfb95a68"
+  },
+  {
+    "path": "frontend/public/assets/furniture/sideTable.glb",
+    "bytes": 8800,
+    "sha256": "8227810584f7d37582e4e9ec821c56f1dc54b99c88a8dc74242ea3b7402bc472"
+  },
+  {
+    "path": "frontend/public/assets/furniture/tableCoffee.glb",
+    "bytes": 8256,
+    "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+  },
+  {
+    "path": "frontend/public/assets/furniture/tableRound.glb",
+    "bytes": 6444,
+    "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b"
+  },
+  {
+    "path": "frontend/public/assets/furniture/televisionModern.glb",
+    "bytes": 6368,
+    "sha256": "d89519ad0a5f28b5b0dccb0d83209dccf610cda959578238dd21bbf9e219cfc6"
+  }
+]

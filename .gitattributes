@@ -1,0 +1,5 @@
+* text=auto
+*.cmd text eol=crlf
+*.glb binary
+*.png binary
+SmartHomeHost/third_party/kenney-*/License.txt -text -whitespace
