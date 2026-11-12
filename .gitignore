@@ -18,5 +18,16 @@ out/
 *.wav
 *.mp3
 *.mp4
+# Course materials and assignment reports stay in the local workspace.
+*.ppt
+*.pptx
+*.pdf
+*.doc
+*.docx
+/PPT/
+/课程资料/
+/报告/
+/reports/
+/output/
 /SmartHomeHost/third_party/scene-qa/HouseScene.js*
 /SmartHomeHost/third_party/scene-qa/assets/

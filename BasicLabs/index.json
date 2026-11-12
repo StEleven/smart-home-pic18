@@ -1,0 +1,528 @@
+{
+  "schema": 1,
+  "integration_sha256": "6b5344016dff24a92bc64f2eb8abd87ec4930a84341aa00532f5f6f9cf4d830b",
+  "stages": [
+    {
+      "stage": 1,
+      "title": "按键与 LED",
+      "blocks": [
+        {
+          "id": "S01-01",
+          "title": "摇杆上方向点亮 LED",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            13
+          ]
+        },
+        {
+          "id": "S01-02",
+          "title": "摇杆下方向熄灭 LED",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            14
+          ]
+        },
+        {
+          "id": "S01-03",
+          "title": "摇杆按下翻转 LED",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            15
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "异步温度采样",
+      "blocks": [
+        {
+          "id": "S02-01",
+          "title": "启动一次异步温度读取",
+          "source": "service/temperature_service.c",
+          "edits": [
+            0
+          ],
+          "placement": "after-end-marker"
+        },
+        {
+          "id": "S02-02",
+          "title": "查询当前读取事务",
+          "source": "service/temperature_service.c",
+          "edits": [
+            1
+          ],
+          "placement": "after-end-marker"
+        },
+        {
+          "id": "S02-03",
+          "title": "提交新温度与有效标志",
+          "source": "service/temperature_service.c",
+          "edits": [
+            2
+          ],
+          "placement": "after-end-marker"
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "页面路由与显示",
+      "blocks": [
+        {
+          "id": "S03-01",
+          "title": "退出旧页面",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            6
+          ]
+        },
+        {
+          "id": "S03-02",
+          "title": "更新当前页与切换计数",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            7
+          ]
+        },
+        {
+          "id": "S03-03",
+          "title": "进入新页面",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            9
+          ]
+        },
+        {
+          "id": "S03-04",
+          "title": "保存返回页并打开菜单",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            10
+          ]
+        },
+        {
+          "id": "S03-05",
+          "title": "执行 GOTO",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            11
+          ]
+        },
+        {
+          "id": "S03-06",
+          "title": "执行 BACK",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            12
+          ]
+        },
+        {
+          "id": "S03-07",
+          "title": "处理菜单入口",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            18
+          ],
+          "placement": "replaces-marker-region"
+        },
+        {
+          "id": "S03-08",
+          "title": "运行页面任务并执行返回动作",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            25
+          ]
+        },
+        {
+          "id": "S03-09",
+          "title": "构建并提交显示内容",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            28
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "title": "欢迎页与 PCM 播放",
+      "blocks": [
+        {
+          "id": "S04-01",
+          "title": "设置欢迎页截止时间",
+          "source": "app/welcome_page.c",
+          "edits": [
+            0
+          ]
+        },
+        {
+          "id": "S04-02",
+          "title": "启动单次欢迎音",
+          "source": "app/welcome_page.c",
+          "edits": [
+            1
+          ]
+        },
+        {
+          "id": "S04-03",
+          "title": "退出时停止播放并清除标志",
+          "source": "app/welcome_page.c",
+          "edits": [
+            2
+          ]
+        },
+        {
+          "id": "S04-04",
+          "title": "播放结束后切页",
+          "source": "app/welcome_page.c",
+          "edits": [
+            3
+          ]
+        },
+        {
+          "id": "S04-05",
+          "title": "超时后切页",
+          "source": "app/welcome_page.c",
+          "edits": [
+            4
+          ]
+        },
+        {
+          "id": "S04-06",
+          "title": "按键提前跳过",
+          "source": "app/welcome_page.c",
+          "edits": [
+            5
+          ]
+        },
+        {
+          "id": "S04-07",
+          "title": "生成欢迎页显示",
+          "source": "app/welcome_page.c",
+          "edits": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "title": "电位器与环境页",
+      "blocks": [
+        {
+          "id": "S05-01",
+          "title": "平滑 ADC 采样",
+          "source": "service/potentiometer_service.c",
+          "edits": [
+            0
+          ]
+        },
+        {
+          "id": "S05-02",
+          "title": "换算百分比并四舍五入",
+          "source": "service/potentiometer_service.c",
+          "edits": [
+            1
+          ]
+        },
+        {
+          "id": "S05-03",
+          "title": "启动 ADC 转换",
+          "source": "service/potentiometer_service.c",
+          "edits": [
+            2
+          ]
+        },
+        {
+          "id": "S05-04",
+          "title": "查询 ADC 转换",
+          "source": "service/potentiometer_service.c",
+          "edits": [
+            3
+          ]
+        },
+        {
+          "id": "S05-05",
+          "title": "更新原始值与滤波值",
+          "source": "service/potentiometer_service.c",
+          "edits": [
+            4
+          ]
+        },
+        {
+          "id": "S05-06",
+          "title": "切换至 PM2.5 演示",
+          "source": "app/environment_page.c",
+          "edits": [
+            1
+          ]
+        },
+        {
+          "id": "S05-07",
+          "title": "切回湿度页",
+          "source": "app/environment_page.c",
+          "edits": [
+            2
+          ]
+        },
+        {
+          "id": "S05-08",
+          "title": "读取百分比并生成环境页",
+          "source": "app/environment_page.c",
+          "edits": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 6,
+      "title": "音乐控制",
+      "blocks": [
+        {
+          "id": "S06-01",
+          "title": "提交选中的曲目",
+          "source": "app/music_page.c",
+          "edits": [
+            0
+          ]
+        },
+        {
+          "id": "S06-02",
+          "title": "停止当前播放",
+          "source": "app/music_page.c",
+          "edits": [
+            1
+          ]
+        },
+        {
+          "id": "S06-03",
+          "title": "启动选中曲目",
+          "source": "app/music_page.c",
+          "edits": [
+            2
+          ]
+        },
+        {
+          "id": "S06-04",
+          "title": "提交增加后的音量",
+          "source": "app/music_page.c",
+          "edits": [
+            3
+          ]
+        },
+        {
+          "id": "S06-05",
+          "title": "提交减小后的音量",
+          "source": "app/music_page.c",
+          "edits": [
+            4
+          ]
+        },
+        {
+          "id": "S06-06",
+          "title": "生成播放状态显示",
+          "source": "app/music_page.c",
+          "edits": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "title": "接近检测与人员会话",
+      "blocks": [
+        {
+          "id": "S07-01",
+          "title": "平滑接近值",
+          "source": "service/proximity_service.c",
+          "edits": [
+            0
+          ]
+        },
+        {
+          "id": "S07-02",
+          "title": "记录进入状态与事件",
+          "source": "service/proximity_service.c",
+          "edits": [
+            1
+          ]
+        },
+        {
+          "id": "S07-03",
+          "title": "记录离开状态与事件",
+          "source": "service/proximity_service.c",
+          "edits": [
+            2
+          ]
+        },
+        {
+          "id": "S07-04",
+          "title": "启动接近值读取",
+          "source": "service/proximity_service.c",
+          "edits": [
+            3
+          ]
+        },
+        {
+          "id": "S07-05",
+          "title": "查询接近值事务",
+          "source": "service/proximity_service.c",
+          "edits": [
+            4
+          ]
+        },
+        {
+          "id": "S07-06",
+          "title": "更新接近缓存",
+          "source": "service/proximity_service.c",
+          "edits": [
+            5
+          ]
+        },
+        {
+          "id": "S07-07",
+          "title": "开启人员会话与显示许可",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            19
+          ]
+        },
+        {
+          "id": "S07-08",
+          "title": "唤醒显示并启动彩灯",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            20
+          ]
+        },
+        {
+          "id": "S07-09",
+          "title": "离开时关闭机构与 RGB",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            21
+          ]
+        },
+        {
+          "id": "S07-10",
+          "title": "休眠显示并关闭灯光",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            22
+          ]
+        },
+        {
+          "id": "S07-11",
+          "title": "启动新人员会话",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            23
+          ]
+        },
+        {
+          "id": "S07-12",
+          "title": "结束人员会话",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            24
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 8,
+      "title": "温控状态与迟滞",
+      "blocks": [
+        {
+          "id": "S08-01",
+          "title": "应用 Cold 输出",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            29
+          ]
+        },
+        {
+          "id": "S08-02",
+          "title": "应用 Hot 输出",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            30
+          ]
+        },
+        {
+          "id": "S08-03",
+          "title": "应用 Comfort 输出",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            31
+          ]
+        },
+        {
+          "id": "S08-04",
+          "title": "判断退出 Hot 后的状态",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            34
+          ]
+        },
+        {
+          "id": "S08-05",
+          "title": "判断 Cold/Comfort 的后续状态",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            36
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "title": "完整基础调度",
+      "blocks": [
+        {
+          "id": "S09-01",
+          "title": "处理人员进入与离开",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            40
+          ]
+        },
+        {
+          "id": "S09-02",
+          "title": "解释当前按键事件",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            41
+          ]
+        },
+        {
+          "id": "S09-03",
+          "title": "处理温控状态",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            42
+          ]
+        },
+        {
+          "id": "S09-04",
+          "title": "推进当前页面任务",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            44
+          ]
+        },
+        {
+          "id": "S09-05",
+          "title": "刷新显示并设置下次刷新时间",
+          "source": "app/smart_home_app.c",
+          "edits": [
+            46
+          ]
+        }
+      ]
+    }
+  ]
+}

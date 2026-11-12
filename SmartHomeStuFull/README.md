@@ -2,6 +2,8 @@
 
 本目录包含温湿度与干湿输入、场景和联动策略、SH1 UART 通信及其集成改动。`config.mcc/` 仅存放独立的项目模块；`integration.json` 存放对指定课程框架的逐行编辑内容和校验值。
 
+基础实验的 58 个实际补写点按 `LAB_STAGE=1…9` 整理在 [BasicLabs](../BasicLabs/README.md)，可直接定位集成代码，或按阶段提取、核对和本地构建；它们依赖课程起始框架，不是完整独立工程。
+
 ## 构建
 
 准备课程提供的 `SmartHomeFrame.zip`、Python 3.10 或更新版本、XC8 3.10，以及 Microchip PIC18F-Q_DFP 1.30.487。课程框架压缩包 SHA-256 为 `d75db15412e094c86d09c50b8b1280c3ad9faf8e26df6f895db25f86e01ef3fc`；脚本不会修改原压缩包。将 `xc8-cc` 加入 PATH，或使用 `--xc8` 提供编译器路径。
