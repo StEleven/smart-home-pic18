@@ -236,23 +236,31 @@ static void RouterIsolation(void)
     puts("PASS production Router: away/no-presence local access, single event consumption, base-menu return, output isolation");
 }
 
-static void TemperatureDemo(void)
+static void TemperatureIndicator(void)
 {
     Init(0);temperature=23.3f;Tick(1);
     assert(rgb[0]==0 && rgb[1]==100 && rgb[2]==0 && rgbPeriod==0);
-    temperature=23.9f;Tick(2);assert(rgb[0]==0 && rgb[1]==100);
-    temperature=24.0f;Tick(3);assert(rgb[0]==100 && rgb[1]==65 && rgbPeriod==0);
-    temperature=23.9f;Tick(4);assert(rgb[0]==100 && rgb[1]==65);
-    temperature=23.8f;Tick(5);assert(rgb[0]==0 && rgb[1]==100);
-    temperature=24.8f;Tick(6);assert(rgb[0]==100 && rgb[1]==0 && rgb[2]==0 && rgbPeriod==2000);
-    temperature=24.7f;Tick(7);assert(rgbPeriod==2000);
-    temperature=24.6f;Tick(8);assert(rgb[1]==65 && rgbPeriod==0);
-    temperature=25.3f;Tick(9);assert(rgbPeriod==2000);
-    assert(!State()->demand); /* RGB demo thresholds do not change AC policy. */
-    tempHealthy=false;Tick(10);assert(rgb[0]==0 && rgb[1]==0 && rgb[2]==0);
-    tempHealthy=true;temperature=24.5f;Tick(11);assert(rgb[0]==100 && rgb[1]==65 && rgbPeriod==0);
+    temperature=24.8f;Tick(2);assert(rgb[0]==0 && rgb[1]==100 && rgbPeriod==0);
+    temperature=29.9f;Tick(3);assert(rgb[0]==0 && rgb[1]==100);
+    temperature=30.0f;Tick(4);assert(rgb[0]==100 && rgb[1]==65 && rgbPeriod==0);
+    temperature=29.6f;Tick(5);assert(rgb[0]==100 && rgb[1]==65);
+    temperature=29.5f;Tick(6);assert(rgb[0]==0 && rgb[1]==100);
+    temperature=31.4f;Tick(7);assert(rgb[1]==65 && rgbPeriod==0);
+    temperature=31.5f;Tick(8);assert(rgb[0]==100 && rgb[1]==0 && rgb[2]==0 && rgbPeriod==2000);
+    assert(!State()->demand); /* Fixed RGB thresholds are independent of the AC setpoint. */
+    temperature=31.1f;Tick(9);assert(rgbPeriod==2000);
+    temperature=31.0f;Tick(10);assert(rgb[1]==65 && rgbPeriod==0);
+    temperature=32.0f;Tick(11);assert(rgbPeriod==2000 && State()->demand);
+    temperature=31.4f;Tick(12);assert(rgbPeriod==2000 && State()->demand);
+    temperature=31.0f;Tick(13);assert(rgb[1]==65 && rgbPeriod==0 && !State()->demand);
+    temperature=29.5f;Tick(14);assert(rgb[0]==0 && rgb[1]==100);
+    temperature=31.5f;Tick(15);assert(rgbPeriod==2000);
+    temperature=29.5f;Tick(16);assert(rgb[0]==0 && rgb[1]==100 && rgbPeriod==0);
+    tempHealthy=false;Tick(17);assert(rgb[0]==0 && rgb[1]==0 && rgb[2]==0);
+    tempHealthy=true;temperature=29.9f;Tick(18);assert(rgb[0]==0 && rgb[1]==100);
+    temperature=30.5f;Tick(19);assert(rgb[0]==100 && rgb[1]==65 && rgbPeriod==0);
     HomeAutomation_Task(6000);assert(rgb[0]==0 && rgb[1]==0 && rgb[2]==0);
-    puts("PASS hand-warming RGB demo, both hysteresis boundaries, invalid/stale temperature, independent AC policy");
+    puts("PASS normal RGB temperature thresholds, both hysteresis boundaries, invalid/stale temperature, independent AC policy");
 }
 
 static void RainbowDemo(void)
@@ -403,6 +411,6 @@ static void NoticeAndPhysicalControls(void)
 
 int main(void)
 {
-    RainAndCooling();IndependentManuals();AwayModes();LightCurtainComfort();WaterAndTimer();SetpointAndLocal();RouterIsolation();TemperatureDemo();RainbowDemo();PersistentDemand();StudyPixel();NoticeAndPhysicalControls();
+    RainAndCooling();IndependentManuals();AwayModes();LightCurtainComfort();WaterAndTimer();SetpointAndLocal();RouterIsolation();TemperatureIndicator();RainbowDemo();PersistentDemand();StudyPixel();NoticeAndPhysicalControls();
     puts("All production automation policy tests passed.");return 0;
 }

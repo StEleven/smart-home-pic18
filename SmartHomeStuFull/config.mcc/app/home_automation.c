@@ -233,12 +233,12 @@ static void UpdateCurtain(uint32_t nowMs)
 static void UpdateRGB(void)
 {
     uint8_t rgb;
-    /* Hand-warming demo: green <24.0 C, amber >=24.0 C, red >=24.8 C.
-     * A 0.2 C falling hysteresis keeps boundary noise from changing colours. */
+    /* Normal temperature indication: amber >=30.0 C, red >=31.5 C.
+     * A 0.5 C falling hysteresis keeps boundary noise from changing colours. */
     if (!home.tempValid) { rgb = 0U; }
-    else if (home.temp10 >= 248 || ((previousRGB == 3U) && (home.temp10 > 246))) { rgb = 3U; }
-    else if (home.temp10 >= 240 || ((previousRGB >= 2U) && (previousRGB <= 3U) &&
-                                  (home.temp10 > 238))) { rgb = 2U; }
+    else if (home.temp10 >= 315 || ((previousRGB == 3U) && (home.temp10 > 310))) { rgb = 3U; }
+    else if (home.temp10 >= 300 || ((previousRGB >= 2U) && (previousRGB <= 3U) &&
+                                  (home.temp10 > 295))) { rgb = 2U; }
     else { rgb = 1U; }
     if (rgb == previousRGB) { return; }
     previousRGB = rgb;
